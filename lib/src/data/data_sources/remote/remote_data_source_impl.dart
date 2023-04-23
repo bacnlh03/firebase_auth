@@ -1,8 +1,11 @@
+// ignore_for_file: avoid_print
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:auth_feature/src/data/data_sources/remote/remote_data_source.dart';
 import 'package:auth_feature/src/data/models/user_model.dart';
 import 'package:auth_feature/src/domain/entities/user_entity.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 class RemoteDataSourceImpl extends RemoteDataSource {
   final FirebaseAuth firebaseAuth;
@@ -45,7 +48,10 @@ class RemoteDataSourceImpl extends RemoteDataSource {
   Future<void> signIn(UserEntity user) async {
     try {
       if (user.email!.isNotEmpty || user.password!.isNotEmpty) {
-        await firebaseAuth.signInWithEmailAndPassword(email: user.email!, password: user.password!,);
+        await firebaseAuth.signInWithEmailAndPassword(
+          email: user.email!,
+          password: user.password!,
+        );
       } else {
         print('Fields cannot be empty');
       }
