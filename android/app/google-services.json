@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "299038734194",
+    "project_id": "auth-feature-f6572",
+    "storage_bucket": "auth-feature-f6572.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:299038734194:android:918b45f6b04388daa8cfeb",
+        "android_client_info": {
+          "package_name": "com.example.auth_feature"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "299038734194-6733f9a26pevlmdse93stf4sr6rjm7jb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCS9T1TLppVLFKGF_vzwOoP7AEqgVMZL_Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "299038734194-6733f9a26pevlmdse93stf4sr6rjm7jb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
