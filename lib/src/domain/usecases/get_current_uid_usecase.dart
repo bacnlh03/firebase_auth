@@ -5,7 +5,7 @@ class GetCurrentUidUseCase {
 
   const GetCurrentUidUseCase({required this.repository});
 
-  Future<void> call() {
+  Future<String> call() {
     return repository.getCurrentUid();
   }
 }
