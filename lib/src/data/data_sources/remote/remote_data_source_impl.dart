@@ -101,4 +101,16 @@ class RemoteDataSourceImpl extends RemoteDataSource {
   Future<String> getCurrentUid() async {
     return firebaseAuth.currentUser!.uid;
   }
+
+  @override
+  Stream<List<UserEntity>> getSingleUser(String uid) {
+    final userCollection = firebaseFirestore
+        .collection('user')
+        .where('uid', isEqualTo: uid)
+        .limit(1);
+    return userCollection.snapshots().map(
+          (querySnapshot) =>
+              querySnapshot.docs.map((e) => UserModel.fromSnapshot(e)).toList(),
+        );
+  }
 }

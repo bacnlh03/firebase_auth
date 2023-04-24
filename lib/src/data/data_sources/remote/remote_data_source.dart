@@ -7,4 +7,5 @@ abstract class RemoteDataSource {
   Future<void> signOut();
   Future<void> createUser(UserEntity user);
   Future<String> getCurrentUid();
+  Stream<List<UserEntity>> getSingleUser(String uid);
 }

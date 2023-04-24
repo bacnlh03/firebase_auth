@@ -36,4 +36,10 @@ class AuthRepositoryImpl extends AuthRepository {
   Future<void> signUp(UserEntity user) async {
     return remoteDataSource.signUp(user);
   }
+
+  @override
+  Stream<List<UserEntity>> getSingleUser(String uid) {
+    // TODO: implement getSingleUser
+    throw UnimplementedError();
+  }
 }
