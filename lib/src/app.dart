@@ -1,3 +1,4 @@
+import 'package:auth_feature/src/presentation/bloc/user/get_single_user_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -21,6 +22,9 @@ class App extends StatelessWidget {
         BlocProvider(
           create: (_) => di.sl<CredentialCubit>(),
         ),
+        BlocProvider(
+          create: (_) => di.sl<GetSingleUserCubit>(),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -32,7 +36,7 @@ class App extends StatelessWidget {
             return BlocBuilder<AuthCubit, AuthState>(
               builder: (context, authState) {
                 if (authState is Authenticated) {
-                  return const HomePage();
+                  return HomePage(uid: authState.uid);
                 } else {
                   return const RegisterPage();
                 }

@@ -39,7 +39,6 @@ class AuthRepositoryImpl extends AuthRepository {
 
   @override
   Stream<List<UserEntity>> getSingleUser(String uid) {
-    // TODO: implement getSingleUser
-    throw UnimplementedError();
+    return remoteDataSource.getSingleUser(uid);
   }
 }

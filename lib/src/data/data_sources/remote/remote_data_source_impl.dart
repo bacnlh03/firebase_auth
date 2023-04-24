@@ -49,10 +49,12 @@ class RemoteDataSourceImpl extends RemoteDataSource {
   Future<void> signIn(UserEntity user) async {
     try {
       if (user.email!.isNotEmpty && user.password!.isNotEmpty) {
+        showException('Processing');
         await firebaseAuth.signInWithEmailAndPassword(
           email: user.email!,
           password: user.password!,
         );
+        showException('Successful');
       } else {
         showException('Fields cannot be empty');
       }
@@ -74,6 +76,7 @@ class RemoteDataSourceImpl extends RemoteDataSource {
       if (user.email!.isNotEmpty &&
           user.username!.isNotEmpty &&
           user.password!.isNotEmpty) {
+        showException('Processing');
         await firebaseAuth
             .createUserWithEmailAndPassword(
           email: user.email!,
@@ -86,6 +89,7 @@ class RemoteDataSourceImpl extends RemoteDataSource {
             }
           },
         );
+        showException('Successful');
       } else {
         showException('Fields cannot be empty');
       }
@@ -105,8 +109,8 @@ class RemoteDataSourceImpl extends RemoteDataSource {
   @override
   Stream<List<UserEntity>> getSingleUser(String uid) {
     final userCollection = firebaseFirestore
-        .collection('user')
-        .where('uid', isEqualTo: uid)
+        .collection('users')
+        .where("uid", isEqualTo: uid)
         .limit(1);
     return userCollection.snapshots().map(
           (querySnapshot) =>

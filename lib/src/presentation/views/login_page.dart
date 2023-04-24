@@ -42,11 +42,7 @@ class _LoginPageState extends State<LoginPage> {
       body: BlocConsumer<CredentialCubit, CredentialState>(
         listener: (context, credentialState) {
           if (credentialState is CredentialSuccess) {
-            showException('Sucessful');
             BlocProvider.of<AuthCubit>(context).loggedIn();
-          }
-          if (credentialState is CredentialLoading) {
-            showException('Processing');
           }
           if (credentialState is CredentialFailure) {
             showException('Invalid email or password');
@@ -57,7 +53,7 @@ class _LoginPageState extends State<LoginPage> {
             return BlocBuilder<AuthCubit, AuthState>(
               builder: (context, authState) {
                 if (authState is Authenticated) {
-                  return const HomePage();
+                  return HomePage(uid: authState.uid);
                 } else {
                   return _bodyWidget();
                 }
@@ -134,7 +130,9 @@ class _LoginPageState extends State<LoginPage> {
             ),
             AddSpace.vertical(8),
             ElevatedButton(
-              onPressed: _signInUser,
+              onPressed: () {
+                _signInUser();
+              },
               child: const Padding(
                 padding: EdgeInsets.all(8.0),
                 child: Text(
@@ -181,7 +179,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Future<void> _signInUser() async {
+  void _signInUser() {
     BlocProvider.of<CredentialCubit>(context).signIn(
       email: _emailController.text,
       password: _passwordController.text,

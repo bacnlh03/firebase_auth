@@ -1,3 +1,5 @@
+import 'package:auth_feature/src/domain/usecases/get_single_user_usecase.dart';
+import 'package:auth_feature/src/presentation/bloc/user/get_single_user_cubit.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get_it/get_it.dart';
@@ -33,21 +35,34 @@ Future<void> init() async {
     ),
   );
 
+  sl.registerFactory(
+    () => GetSingleUserCubit(getSingleUserUseCase: sl.call()),
+  );
+
   sl.registerLazySingleton(
     () => CreateUserUseCase(repository: sl.call()),
   );
+
   sl.registerLazySingleton(
     () => GetCurrentUidUseCase(repository: sl.call()),
   );
+
+  sl.registerLazySingleton(
+    () => GetSingleUserUseCase(repository: sl.call()),
+  );
+
   sl.registerLazySingleton(
     () => IsSignInUseCase(repository: sl.call()),
   );
+
   sl.registerLazySingleton(
     () => SignInUseCase(repository: sl.call()),
   );
+
   sl.registerLazySingleton(
     () => SignOutUseCase(repository: sl.call()),
   );
+
   sl.registerLazySingleton(
     () => SignUpUseCase(repository: sl.call()),
   );

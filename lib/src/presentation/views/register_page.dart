@@ -43,11 +43,7 @@ class _RegisterPageState extends State<RegisterPage> {
       body: BlocConsumer<CredentialCubit, CredentialState>(
         listener: (context, credentialState) {
           if (credentialState is CredentialSuccess) {
-            showException('Successful');
             BlocProvider.of<AuthCubit>(context).loggedIn();
-          }
-          if (credentialState is CredentialLoading) {
-            showException('Processing');
           }
           if (credentialState is CredentialFailure) {
             showException('Invalid email or password');
@@ -58,7 +54,7 @@ class _RegisterPageState extends State<RegisterPage> {
             return BlocBuilder<AuthCubit, AuthState>(
               builder: (context, authState) {
                 if (authState is Authenticated) {
-                  return const HomePage();
+                  return HomePage(uid: authState.uid);
                 } else {
                   return _bodyWidget();
                 }
@@ -130,7 +126,9 @@ class _RegisterPageState extends State<RegisterPage> {
             ),
             AddSpace.vertical(20),
             ElevatedButton(
-              onPressed: _signUpUser,
+              onPressed: () {
+                _signUpUser();
+              },
               child: const Padding(
                 padding: EdgeInsets.all(8.0),
                 child: Text(

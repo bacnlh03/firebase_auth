@@ -16,9 +16,6 @@ class OnGenerateRoute {
       case Pages.registerPage:
         return _routeBuilder(const RegisterPage());
 
-      case Pages.homePage:
-        return _routeBuilder(const HomePage());
-
       default:
         return _routeBuilder(const NoPageFound());
     }
