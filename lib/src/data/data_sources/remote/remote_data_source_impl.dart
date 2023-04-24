@@ -1,5 +1,4 @@
-// ignore_for_file: avoid_print
-
+import 'package:auth_feature/src/utils/utils.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -15,6 +14,8 @@ class RemoteDataSourceImpl extends RemoteDataSource {
     required this.firebaseAuth,
     required this.firebaseFirestore,
   });
+
+  FirebaseExceptionCode? _firebaseExceptionCode;
 
   @override
   Future<void> createUser(UserEntity user) async {
@@ -35,7 +36,7 @@ class RemoteDataSourceImpl extends RemoteDataSource {
         userCollection.doc(uid).update(newUser);
       }
     }).catchError((error) {
-      print(error.toString());
+      showException(error.toString());
     });
   }
 
@@ -47,20 +48,18 @@ class RemoteDataSourceImpl extends RemoteDataSource {
   @override
   Future<void> signIn(UserEntity user) async {
     try {
-      if (user.email!.isNotEmpty || user.password!.isNotEmpty) {
+      if (user.email!.isNotEmpty && user.password!.isNotEmpty) {
         await firebaseAuth.signInWithEmailAndPassword(
           email: user.email!,
           password: user.password!,
         );
       } else {
-        print('Fields cannot be empty');
+        showException('Fields cannot be empty');
       }
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        print('User not found');
-      } else if (e.code == 'wrong-password') {
-        print('Invalid email or password');
-      }
+      _firebaseExceptionCode = FirebaseHandler.handleException(e);
+      var message = FirebaseHandler.exceptionMessage(_firebaseExceptionCode!);
+      showException(message);
     }
   }
 
@@ -72,25 +71,29 @@ class RemoteDataSourceImpl extends RemoteDataSource {
   @override
   Future<void> signUp(UserEntity user) async {
     try {
-      await firebaseAuth
-          .createUserWithEmailAndPassword(
-        email: user.email!,
-        password: user.password!,
-      )
-          .then(
-        (currentUser) async {
-          if (currentUser.user?.uid != null) {
-            createUser(user);
-          }
-        },
-      );
+      if (user.email!.isNotEmpty &&
+          user.username!.isNotEmpty &&
+          user.password!.isNotEmpty) {
+        await firebaseAuth
+            .createUserWithEmailAndPassword(
+          email: user.email!,
+          password: user.password!,
+        )
+            .then(
+          (currentUser) async {
+            if (currentUser.user?.uid != null) {
+              createUser(user);
+            }
+          },
+        );
+      } else {
+        showException('Fields cannot be empty');
+      }
       return;
     } on FirebaseAuthException catch (e) {
-      if (e.code == "email-already-in-use") {
-        print("Email is already taken");
-      } else {
-        print("Something went wrong");
-      }
+      _firebaseExceptionCode = FirebaseHandler.handleException(e);
+      var message = FirebaseHandler.exceptionMessage(_firebaseExceptionCode!);
+      showException(message);
     }
   }
 

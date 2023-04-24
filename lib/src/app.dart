@@ -6,7 +6,7 @@ import 'package:auth_feature/src/presentation/bloc/auth/auth_state.dart';
 import 'package:auth_feature/src/presentation/bloc/credential/credential_state.dart';
 import 'package:auth_feature/src/presentation/views/home_page.dart';
 import 'package:auth_feature/src/presentation/views/register_page.dart';
-import 'package:auth_feature/src/utils/constants/constants.dart';
+import 'package:auth_feature/src/utils/utils.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -25,6 +25,7 @@ class App extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: Strings.appTitle,
+        onGenerateRoute: OnGenerateRoute.route,
         initialRoute: '/',
         routes: {
           '/': (context) {

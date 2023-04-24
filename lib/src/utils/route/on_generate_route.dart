@@ -1,3 +1,4 @@
+import 'package:auth_feature/src/presentation/views/home_page.dart';
 import 'package:flutter/material.dart';
 
 import 'package:auth_feature/src/presentation/views/login_page.dart';
@@ -14,6 +15,9 @@ class OnGenerateRoute {
 
       case Pages.registerPage:
         return _routeBuilder(const RegisterPage());
+
+      case Pages.homePage:
+        return _routeBuilder(const HomePage());
 
       default:
         return _routeBuilder(const NoPageFound());

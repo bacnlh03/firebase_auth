@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:auth_feature/src/presentation/bloc/auth/auth_state.dart';
 import 'package:auth_feature/src/presentation/widgets/widgets.dart';
-import 'package:auth_feature/src/utils/constants/constants.dart';
+import 'package:auth_feature/src/utils/utils.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -12,13 +14,19 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         title: const Text(
           Strings.homeTitle,
-          style: TextStyle(fontSize: 24),
+          style: TextStyle(fontSize: 22),
         ),
+        centerTitle: true,
         automaticallyImplyLeading: false,
         actions: [
           IconButton(
             onPressed: () {
-              Navigator.of(context).pop();
+              BlocProvider.of<AuthCubit>(context).loggedOut();
+              Navigator.pushNamedAndRemoveUntil(
+                context,
+                Pages.loginPage,
+                (route) => false,
+              );
             },
             icon: const Icon(
               Icons.logout,
@@ -44,7 +52,7 @@ class HomePage extends StatelessWidget {
                   ),
                 ),
                 initialValue: 'Email',
-                style: const TextStyle(fontSize: 20),
+                style: const TextStyle(fontSize: 18),
               ),
               AddSpace.vertical(12),
               TextFormField(
@@ -55,7 +63,7 @@ class HomePage extends StatelessWidget {
                   ),
                 ),
                 initialValue: 'Username',
-                style: const TextStyle(fontSize: 20),
+                style: const TextStyle(fontSize: 18),
               ),
               AddSpace.vertical(12),
               TextFormField(
@@ -66,7 +74,7 @@ class HomePage extends StatelessWidget {
                   ),
                 ),
                 initialValue: 'Password',
-                style: const TextStyle(fontSize: 20),
+                style: const TextStyle(fontSize: 18),
               ),
               AddSpace.vertical(20),
               ElevatedButton(
