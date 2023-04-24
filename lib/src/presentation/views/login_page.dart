@@ -42,7 +42,11 @@ class _LoginPageState extends State<LoginPage> {
       body: BlocConsumer<CredentialCubit, CredentialState>(
         listener: (context, credentialState) {
           if (credentialState is CredentialSuccess) {
+            showException('Sucessful');
             BlocProvider.of<AuthCubit>(context).loggedIn();
+          }
+          if (credentialState is CredentialLoading) {
+            showException('Processing');
           }
           if (credentialState is CredentialFailure) {
             showException('Invalid email or password');
