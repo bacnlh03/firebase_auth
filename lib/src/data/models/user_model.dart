@@ -1,4 +1,5 @@
 import 'package:auth_feature/src/domain/entities/user_entity.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UserModel extends UserEntity {
   const UserModel({
@@ -8,12 +9,14 @@ class UserModel extends UserEntity {
     required super.password,
   });
 
-  factory UserModel.fromJson(Map<String, dynamic> json) {
+  factory UserModel.fromSnapshot(DocumentSnapshot snap) {
+    var snapshot = snap.data() as Map<String, dynamic>;
+
     return UserModel(
-      uid: json['uid'],
-      email: json['email'],
-      username: json['username'],
-      password: json['password'],
+      uid: snapshot['uid'],
+      email: snapshot['email'],
+      username: snapshot['username'],
+      password: snapshot['password'],
     );
   }
 
